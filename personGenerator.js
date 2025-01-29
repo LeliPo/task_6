@@ -51,21 +51,29 @@ const personGenerator = {
             "id_10": "Мария"
         }
     }`,
-    patronymicJson: `{
-        "count": 10,
-        "list": {
-            "id_1": "Юрьев",
-            "id_2": "Демидов",
-            "id_3": "Денисов",
-            "id_4": "Янов",
-            "id_5": "Евгеньев",
-            "id_6": "Жанов",
-            "id_7": "Ибрагимов",
-            "id_8": "Тимуров",
-            "id_9": "Владимиров",
-            "id_10": "Тихонов"
+    randomPatronymic: function() { 
+        patronymic = this.randomValue(this.firstNameMaleJson);
+        if (this.person.gender == 'Мужчина') {
+            if (patronymic.includes('й')) {
+                patronymic = patronymic.replace("й", "евич");
+            } else
+            if (patronymice.includes('Никита')) {
+                patronymic = patronymic.replace("а", "ич");
+            } else
+            patronymic = patronymic + "ович";
+        } else
+ 
+        if (this.person.gender == 'Женщина') {
+            if (patronymic.includes('й')) {
+                patronymic = patronymic.replace("й", "евна");
+            } else
+            if (patronymic.includes('Никита')) {
+                patronymic = patronymic.replace("а", "ична");
+            } else
+            patronymic = patronymic + "овна"; 
         }
-    }`,
+        return patronymic;
+    },
     professionFemaleJson: `{
         "count": 10,
         "list": {
@@ -107,7 +115,7 @@ const personGenerator = {
 
     randomValue: function (json) {
         const obj = JSON.parse(json);
-        const prop = `id_${this.randomIntNumber(obj.count, 1)}`;  // this = personGenerator
+        const prop = `id_${this.randomIntNumber(obj.count, 1)}`;  
         return obj.list[prop];
     },
 
@@ -129,13 +137,6 @@ const personGenerator = {
         }
     },
     
-    randomPatronymic: function() {
-        if (this.person.gender == 'Женщина') {
-            return this.randomValue(this.patronymicJson) +"на";
-        } else{
-            return this.randomValue(this.patronymicJson) + "ич";
-        }
-    },
     randomProfession: function(){
         if (this.person.gender == 'Женщина') {
             return this.randomValue(this.professionFemaleJson);
@@ -169,7 +170,6 @@ const personGenerator = {
 
     getPerson: function () {
         this.person = {};
-        // this.person.gender = this.randomGender();
         this.person.gender = this.randomGender();
         this.person.surnameJson = this.randomSurname();
         this.person.firstName = this.randomFirstName();
